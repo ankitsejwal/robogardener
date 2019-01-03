@@ -8,7 +8,7 @@ def start_pump(duration):
     ''' run pump for a set interval '''
 
     GPIO.output(PUMP, GPIO.HIGH)
-    sleep(duration)                                 # keep pump running for 4 seconds
+    sleep(duration)                                 # keep pump running for set interval
     GPIO.output(PUMP, GPIO.LOW)
 
 
@@ -19,7 +19,7 @@ def send_tweet(mention):
     access_token_key = os.environ['twitter_access_token_key']
     access_token_secret = os.environ['twitter_access_token_secret']
 
-    api = twitter.Api(consumer_key=consumer_key,
+    api =   twitter.Api(consumer_key=consumer_key,
                         consumer_secret=consumer_secret,
                         access_token_key=access_token_key,
                         access_token_secret=access_token_secret)
