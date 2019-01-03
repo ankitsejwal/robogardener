@@ -1,14 +1,16 @@
 import RPi.GPIO as GPIO
 import twitter
-import os, time
+import os
+from time import sleep, strftime
 
 
 def start_pump(duration):
     ''' run pump for a set interval '''
 
     GPIO.output(PUMP, GPIO.HIGH)
-    time.sleep(duration)                   # keep pump running for 4 seconds
+    sleep(duration)                                 # keep pump running for 4 seconds
     GPIO.output(PUMP, GPIO.LOW)
+
 
 def send_tweet(mention):
     
@@ -22,16 +24,21 @@ def send_tweet(mention):
                         access_token_key=access_token_key,
                         access_token_secret=access_token_secret)
 
-    tweet = f'@{mention} The plants have been watered at ⏰{time.strftime("%H:%M")}'
+    tweet = f'@{mention} The plants have been watered at ⏰{strftime("%H:%M")}'
     
     # post tweet
     api.PostUpdate(status=tweet)
 
 
+def water_plants():
+    start_pump(duration=4)                          # run pump for set interval time
+    send_tweet(mention='ankitsejwal')               # mention username to tag people in tweet
+
 if __name__ == "__main__":
 
     PUMP = 17
     BUTTON = 18
+    WATERING_TIME = '16:00'
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
@@ -43,7 +50,13 @@ if __name__ == "__main__":
     while True:
         button_pressed = not GPIO.input(BUTTON)
 
+        # water plants when button is pressed
         if button_pressed:
-            start_pump(duration=4)                   # run pump for set interval time
-            send_tweet(mention='ankitsejwal')       # mention username to tag people in tweet
-        time.sleep(0.1)
+            water_plants()
+
+        # water plants at a fixed time everyday
+        if strftime('%H:%M') == WATERING_TIME:
+            water_plants()
+            sleep(60)                               # sleep for a minute                           
+
+        sleep(0.2)                                  # slight delay in while loop
