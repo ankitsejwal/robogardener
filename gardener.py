@@ -7,9 +7,9 @@ from time import sleep, strftime
 def start_pump(duration):
     ''' run pump for a set interval '''
 
-    GPIO.output(PUMP, GPIO.HIGH)
+    GPIO.output(PUMP, PUMP_ON)
     sleep(duration)                                 # keep pump running for set interval
-    GPIO.output(PUMP, GPIO.LOW)
+    GPIO.output(PUMP, PUMP_OFF)
 
 
 def send_tweet(mention):
@@ -38,6 +38,10 @@ if __name__ == "__main__":
 
     PUMP = 17
     BUTTON = 18
+
+    PUMP_ON = 0
+    PUMP_OFF = 1
+
     WATERING_TIME = '16:00'
 
     GPIO.setmode(GPIO.BCM)
@@ -45,6 +49,7 @@ if __name__ == "__main__":
     GPIO.setup(PUMP, GPIO.OUT)
     GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+    GPIO.output(PUMP, PUMP_OFF)                     # initial state
 
     # infinite loop
     while True:
