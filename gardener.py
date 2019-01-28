@@ -51,6 +51,8 @@ if __name__ == "__main__":
 
     GPIO.output(PUMP, PUMP_OFF)                     # initial state
 
+    print('Program started successfully ...')
+
     # infinite loop
     while True:
         button_pressed = not GPIO.input(BUTTON)
