@@ -24,7 +24,7 @@ def send_tweet(mention):
                         access_token_key=access_token_key,
                         access_token_secret=access_token_secret)
 
-    tweet = f'@{mention} The plants have been watered at ⏰{strftime("%H:%M")}'
+    tweet = '@{0} The plants have been watered at ⏰{1}'.format(mention, strftime("%H:%M:%S"))
     
     # post tweet
     api.PostUpdate(status=tweet)
