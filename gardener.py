@@ -31,6 +31,7 @@ def send_tweet(mention):
 
 
 def water_plants():
+    print('Watering plants at {0}'.format(strftime("%H:%M:%S")))
     start_pump(duration=4)                          # run pump for set interval time
     send_tweet(mention='ankitsejwal')               # mention username to tag people in tweet
 
@@ -51,7 +52,7 @@ if __name__ == "__main__":
 
     GPIO.output(PUMP, PUMP_OFF)                     # initial state
 
-    print('Program started successfully ...')
+    print('Program started successfully ...\n')
 
     try:
         # infinite loop
@@ -69,4 +70,4 @@ if __name__ == "__main__":
 
             sleep(0.2)                                  # slight delay in while loop
     except KeyboardInterrupt:
-        sys.exit('Program halted!')
+        sys.exit('\nProgram stopped successfully.')
