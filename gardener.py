@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import twitter
-import os
+import os, sys
 from time import sleep, strftime
 
 
@@ -53,17 +53,20 @@ if __name__ == "__main__":
 
     print('Program started successfully ...')
 
-    # infinite loop
-    while True:
-        button_pressed = not GPIO.input(BUTTON)
+    try:
+        # infinite loop
+        while True:
+            button_pressed = not GPIO.input(BUTTON)
 
-        # water plants when button is pressed
-        if button_pressed:
-            water_plants()
+            # water plants when button is pressed
+            if button_pressed:
+                water_plants()
 
-        # water plants at a fixed time everyday
-        if strftime('%H:%M') == WATERING_TIME:
-            water_plants()
-            sleep(60)                               # sleep for a minute                           
+            # water plants at a fixed time everyday
+            if strftime('%H:%M') == WATERING_TIME:
+                water_plants()
+                sleep(60)                               # sleep for a minute                           
 
-        sleep(0.2)                                  # slight delay in while loop
+            sleep(0.2)                                  # slight delay in while loop
+    except KeyboardInterrupt:
+        sys.exit('Program halted!')
